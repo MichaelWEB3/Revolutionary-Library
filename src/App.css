@@ -14,13 +14,13 @@
   width: 10vw;
   height: 18vh;
   position: relative;
-
+  background-size: 100% 100%;
 }
 
 .counter {
   background-image: url('./assets/bookcase.svg');
   background-repeat: no-repeat;
-  width: 40%;
+  width: 20%;
   height: 80%;
   position: relative;
   top: 19vh;
@@ -107,11 +107,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 60vw;
     height: 60%;
     top: 12vh;
     order: 2;
     left: 12vw;
+    background-size: 100% 100%;
   }
 
   .board {

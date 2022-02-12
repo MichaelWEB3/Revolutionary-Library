@@ -122,10 +122,10 @@
   .sec:after{
     position: absolute;
     content: '';
-    height: 35px;
-        width: 7px;
+    height: 30px;
+    width: 4px;
     background: #3104B4;
-    top: 60px;
+    top: 50px;
     border-radius: 5px;
   }
   .min:before{
