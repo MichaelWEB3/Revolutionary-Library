@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import './relo.css'
 import { Lista2 } from './list/listTop'
 import { Lista } from './list/listTop'
+import Relogio from './components/relogio';
+import Button from './components/button';
 
 function App() {
-  
-  const [s, sets] = useState(0)
-  const [m, setm] = useState(0)
-  const [h, seth] = useState(0)
+
+
   const [ListBOt, setListBot] = useState(null)
   const [ListTop, setListTop] = useState(null)
   const [BookSelect, setBookSelect] = useState(null)
   const [BookSelectBot, setBookSelectBot] = useState(null)
+  const [valueSelect, setvalueSelect] = useState(localStorage.getItem("itemSelect"))
 
   useEffect(() => {
+
     if (Lista2) {
       setListBot(Lista2)
     }
@@ -24,17 +25,23 @@ function App() {
     }
   }, [])
 
+
+  useEffect(() => {
+    localStorage.getItem("itemSelect")
+    console.log(localStorage.getItem("itemSelect"))
+  }, [localStorage.getItem("itemSelect")])
+
   function onDragStart1(event, livro, bot = false) {
     if (!BookSelectBot) {
       setBookSelect(livro)
       event
-      .dataTransfer
-      .setData('text/plain', event.target.id);
+        .dataTransfer
+        .setData('text/plain', event.target.id);
 
-    event
-      .currentTarget
-      .style
-      .backgroundColor = 'yellow';
+      event
+        .currentTarget
+        .style
+        .backgroundColor = 'yellow';
     }
   }
 
@@ -66,7 +73,7 @@ function App() {
   }
   function onDragOver2(event) {
     if (BookSelectBot) {
-      console.log( BookSelectBot.id)
+      console.log(BookSelectBot.id)
       setListTop([...ListTop, BookSelectBot])
       const newArray = ListBOt?.filter((item) => item?.id !== BookSelectBot?.id);
       setListBot(newArray)
@@ -75,54 +82,137 @@ function App() {
     event.preventDefault();
   }
 
-  setInterval(function () {
-    refreshClock();
-  }, 1000);
 
 
+  function alfabetic(array1, array2) {
 
-  function refreshClock() {
-    var time = new Date;
+    const resu1 = array1?.sort(function (a, b) {
 
-    var deg = time.getSeconds() * 6 - 90;
-    deg = time.getSeconds() * 6 - 90;
-    sets("rotate(" + deg + "deg)")
+      return (a.letter > b.letter) ? 1 : ((b.letter > a.letter) ? -1 : 0);
 
-    deg = time.getMinutes() * 6 - 90;
-    setm("rotate(" + deg + "deg)")
+    });
 
-    deg = time.getHours() % 12 * 30 - 90;
-    seth("rotate(" + deg + "deg)")
+    const resu2 = array2?.sort(function (a, b) {
+
+      return (a.letter > b.letter) ? 1 : ((b.letter > a.letter) ? -1 : 0);
+
+    });
+    if (resu1) {
+      setListTop([...resu1])
+
+    }
+    if (resu2) {
+      setListBot([...resu2])
+    }
+
   }
 
-  window.onload = function () {
-    refreshClock();
-  };
+
+  function size(array1, array2) {
+
+    const resu1 = array1?.sort(function (a, b) {
+
+      return a.size - b.size
+
+    });
+
+    const resu2 = array2?.sort(function (a, b) {
+
+      return a.size - b.size
+
+    });
+
+
+    if (resu1) {
+      setListTop([...resu1])
+
+    }
+    if (resu2) {
+      setListBot([...resu2])
+    }
+
+  }
+
+
+
+  function corlor(array) {
+
+    const newArray = []
+    for (let i = 0; i <= array.length; i++) {
+      if (array[i]?.color == 'vermelho') {
+        newArray.push(array[i])
+      }
+
+
+    }
+    for (let i = 0; i <= array.length; i++) {
+
+      if (array[i]?.color == 'laranja') {
+        newArray.push(array[i])
+      }
+
+
+    }
+  for (let i = 0; i <= array.length; i++) {
+     if (array[i]?.color == 'amarelo') {
+        newArray.push(array[i])
+      }
+
+    }
+    for (let i = 0; i <= array.length; i++) {
+      if (array[i]?.color == 'verde') {
+         newArray.push(array[i])
+       }
+     }
+     for (let i = 0; i <= array.length; i++) {
+      if (array[i]?.color == 'azul') {
+         newArray.push(array[i])
+       }
+     }
+     for (let i = 0; i <= array.length; i++) {
+      if (array[i]?.color == 'azulEscuro') {
+         newArray.push(array[i])
+       }
+     }
+     for (let i = 0; i <= array.length; i++) {
+      if (array[i]?.color == 'roxo') {
+         newArray.push(array[i])
+       }
+     }
+     for (let i = 0; i <= array.length; i++) {
+      if (array[i]?.color == 'rosa') {
+         newArray.push(array[i])
+       }
+     }
+    setListTop([...newArray])
+    setListBot(null)
+
+
+
+  }
+
+
+  function loadControl() {
+    const item = localStorage.getItem("itemSelect")
+
+    if (item === 'le') {
+      alfabetic(ListTop, ListBOt)
+    }
+
+    if (item === 'ta') {
+      size(ListTop, ListBOt)
+    }
+    if (item === 'co') {
+      corlor([...ListTop, ...ListBOt])
+    }
+  }
+
 
   return (
     <div className="h-screen w-screen bg-slate-400 z-0 relative">
       <div className='w-full h-1/2 Wall flex  flex-col md:flex-row justify-around items-center'>
         <div className='watch z-10  hidden md:flex  justify-center items-center' id="clock">
-          <div class="relogio z-20">
-            <div class="porca-central">
-            </div>
-            <div class="porca-central2">
-            </div>
-
-
-            <div class="sec-hand">
-              <div class="sec" style={{ transform: s }}>
-              </div>
-            </div>
-            <div class="min-hand">
-              <div class="min" style={{ transform: m }}>
-              </div>
-            </div>
-            <div class="hr-hand">
-              <div class="hr" style={{ transform: h }}>
-              </div>
-            </div>
-          </div>
+          <Relogio></Relogio>
         </div>
         <div className='counter z-10 flex flex-col md:p-5 items-start justify-center  '>
           <div onDragOver={(e) => onDragOver2(e)} className='w-10/12 z-50 top-5 md:h-20  md:m-1  relative md:top-1 flex items-center justify-start' >
@@ -134,7 +224,7 @@ function App() {
           </div>
           <div onDragOver={(e) => onDragOver1(e)} className='w-8/12 h-20 pr-7 m-1    z-50 relative md:top-6 flex items-end justify-end'>
 
-            {ListBOt?.map((livro, index) => {
+            { ListBOt?.map((livro, index) => {
 
               return <img onDragStart={(e) => onDragStart2(e, livro)} className='h-10  md:h-full cursor-pointer' key={index} src={require(`${livro?.img}`)} />
             })}
@@ -152,20 +242,14 @@ function App() {
             <span className=' text-gray-300 text-xs md:w-28 '>Sort by</span>
           </div>
           <div className='flex justify-around m-1 md:m-2 md:p-1 z-30'>
-            <div className='filter_button flex  justify-center items-center'>
-              <div className='le flex justify-center items-center'></div>
-            </div>
-            <div className='filter_button flex  justify-center items-center'>
-              <div className='co flex  justify-center items-center'></div>
-            </div>
-            <div className='filter_button flex  justify-center items-center'>
-              <div className='ta  flex justify-center items-center'></div>
-            </div>
+            <Button src="le cursor-pointer" name="le"></Button>
+            <Button src="co cursor-pointer" name="co"></Button>
+            <Button src="ta cursor-pointer" name="ta"></Button>
           </div>
           <div className=' border-2 border-gray-400  w-10   md:w-28 m-1  md:m-2 z-30'>
 
           </div>
-          <div className='buttongreen z-50'>
+          <div className='buttongreen z-50' onClick={() => loadControl()}>
 
           </div>
         </div>
