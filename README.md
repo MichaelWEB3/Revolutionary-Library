@@ -43,5 +43,5 @@ Inicie o servidor | start the server
 
 ## Screenshots
 
-![App Screenshot](../src/assets/vovo.png)
+![App Screenshot](https://github.com/MichaelWEB3/Revolutionary-Library/blob/main/src/assets/vovo.PNG?raw=true)
 
